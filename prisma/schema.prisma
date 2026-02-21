@@ -16,6 +16,7 @@ model User {
   projects    Project[]
   contentItems ContentItem[]
   payments    Payment[]
+  exports     Export[]
 }
 
 model Project {
