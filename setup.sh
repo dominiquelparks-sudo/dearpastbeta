@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # Create project directory
 mkdir dearpast && cd dearpast
 
@@ -36,13 +39,25 @@ npx prisma init
 npx prisma generate
 
 # Set up environment variables
-cat > .env.local << 'EOF'
+NEXTAUTH_SECRET_VALUE=$(openssl rand -base64 32)
+cat > .env.local << EOF
 # Database
 DATABASE_URL="postgresql://user:password@localhost:5432/dearpast"
 
 # NextAuth
-NEXTAUTH_SECRET=$(openssl rand -base64 32)
+NEXTAUTH_SECRET="${NEXTAUTH_SECRET_VALUE}"
 NEXTAUTH_URL="http://localhost:3000"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+
+# Email / Magic Links
+SMTP_HOST="smtp.example.com"
+SMTP_PORT="465"
+SMTP_USER="your_smtp_username"
+SMTP_PASSWORD="your_smtp_password"
+EMAIL_FROM="noreply@yourdomain.com"
 
 # AWS S3
 AWS_ACCESS_KEY_ID="your_access_key"
@@ -53,6 +68,7 @@ AWS_S3_BUCKET="dearpast-bucket"
 # Stripe
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
 
 # App
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
