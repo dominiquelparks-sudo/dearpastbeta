@@ -1,0 +1,30 @@
+# Create project directory
+mkdir dearpast && cd dearpast
+
+# Initialize Node project
+npm init -y
+
+# Install Next.js and dependencies
+npx create-next-app@latest . --typescript --tailwind --app
+
+# Install additional packages
+npm install \
+  next-auth@5.0.0-beta.17 \
+  @prisma/client \
+  prisma \
+  zod \
+  @hookform/resolvers \
+  react-hook-form \
+  @aws-sdk/client-s3 \
+  stripe \
+  pdfkit \
+  @types/pdfkit \
+  date-fns \
+  uuid \
+  papaparse \
+  tsx
+
+# Dev dependencies
+npm install -D \
+  @types/papaparse \
+  @types/uuid
