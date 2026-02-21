@@ -1,0 +1,62 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Change this if you're using another database
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  name        String
+  email       String      @unique
+  projects    Project[]
+  contentItems ContentItem[]
+  payments    Payment[]
+}
+
+model Project {
+  id           Int          @id @default(autoincrement())
+  title        String
+  description  String
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  contentItems ContentItem[]
+  bookQueueItems BookQueueItem[]
+}
+
+model ContentItem {
+  id         Int       @id @default(autoincrement())
+  title      String
+  content    String
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+  projectId  Int
+  project    Project   @relation(fields: [projectId], references: [id])
+}
+
+model BookQueueItem {
+  id         Int       @id @default(autoincrement())
+  title      String
+  author     String
+  projectId  Int
+  project    Project   @relation(fields: [projectId], references: [id])
+}
+
+model Export {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  creationDate DateTime  @default(now())
+}
+
+model Payment {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  amount      Float
+  date        DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+}
