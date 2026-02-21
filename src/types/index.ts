@@ -52,4 +52,4 @@ type Payment = {
     status: 'pending' | 'completed' | 'refunded';
 };
 
-export { User, Project, ContentItem, BookQueueItem, Export, Payment };
+export type { User, Project, ContentItem, BookQueueItem, Export, Payment };
